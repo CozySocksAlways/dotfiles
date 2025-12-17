@@ -1,0 +1,4 @@
+set editing-mode vi
+$if mode=vi
+       "jk":vi-movement-mode
+$endif 
