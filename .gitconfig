@@ -1,0 +1,5 @@
+[user]
+        name = Harris Antony Jos
+        email = ha.jos@fz-juelich.de
+[alias]
+        add-commit = !git add -A && git commit
