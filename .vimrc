@@ -47,3 +47,32 @@ fun! AutoComplete()
         call feedkeys("\<C-P>", 'n')
     end
 endfun
+
+" Source: ChatGP'ed to suit requirement from this reddit post https://www.reddit.com/r/vim/comments/i02w3v/code_commenting_without_plugins/
+" Toggle comment function
+function! ToggleComment(comment_char, startLine, endLine)
+    for lnum in range(a:startLine, a:endLine)
+        let line = getline(lnum)
+        " Regex: optional leading whitespace, then the comment char
+        if line =~ '^\s*' . a:comment_char
+            " Remove comment char (with optional space after it)
+            let line = substitute(line, '^\(\s*\)' . a:comment_char . '\s\?', '\1', '')
+        else
+            " Add comment char after leading whitespace
+            let line = substitute(line, '^\(\s*\)', '\1' . a:comment_char . ' ', '')
+        endif
+        call setline(lnum, line)
+    endfor
+endfunction
+
+" Normal mode mappings (single line)
+autocmd FileType vim nnoremap <buffer> gc :call ToggleComment('"', line("."), line("."))<CR>
+autocmd FileType python,sh,zsh,bash nnoremap <buffer> gc :call ToggleComment("#", line("."), line("."))<CR>
+autocmd FileType c,cpp nnoremap <buffer> gc :call ToggleComment("//", line("."), line("."))<CR>
+autocmd FileType php,markdown nnoremap <buffer> gc :call ToggleComment("#", line("."), line("."))<CR>
+
+" Visual mode mappings (multi-line)
+autocmd FileType vim vnoremap <buffer> gc :<C-U>call ToggleComment('"', line("'<"), line("'>"))<CR>
+autocmd FileType python,sh,zsh,bash vnoremap <buffer> gc :<C-U>call ToggleComment("#", line("'<"), line("'>"))<CR>
+autocmd FileType c,cpp vnoremap <buffer> gc :<C-U>call ToggleComment("//", line("'<"), line("'>"))<CR>
+autocmd FileType php,markdown vnoremap <buffer> gc :<C-U>call ToggleComment("#", line("'<"), line("'>"))<CR>
