@@ -1,8 +1,12 @@
 set number
 syntax on
-inoremap jk <Esc> 
 nnoremap <C-y> 3<C-y>
 nnoremap <C-e> 3<C-e>
+set hlsearch
+
+" Escape to normal mode and toggle hl search"
+nnoremap jk :nohl<CR> 
+inoremap jk <Esc>:noh<CR>
 
 " Indentation
 set tabstop=4
@@ -13,6 +17,9 @@ set autoindent
 set smartindent
 set cindent
 filetype plugin indent on
+
+" Show matching bracket"
+set showmatch
 
 " Bracket autocompletion
 inoremap { {}<Esc>ha
