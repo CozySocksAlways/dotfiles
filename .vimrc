@@ -12,7 +12,7 @@ inoremap jk <Esc>:noh<CR>
 imap jh <right> 
 
 " Show matches in search"
-shortmess-=S
+set shortmess-=S
 
 " Indentation
 set tabstop=4
