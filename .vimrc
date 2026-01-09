@@ -12,7 +12,7 @@ inoremap jk <Esc>:noh<CR>
 vnoremap jn <Esc>
 
 " Move one char right in insert mode" 
-imap hj <right> 
+imap jh <right> 
 
 " Indentation
 set tabstop=4
