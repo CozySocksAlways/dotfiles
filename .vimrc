@@ -8,6 +8,9 @@ set hlsearch
 nnoremap jk :nohl<CR> 
 inoremap jk <Esc>:noh<CR>
 
+" Move one char right in insert mode" 
+imap hj <right> 
+
 " Indentation
 set tabstop=4
 set shiftwidth=4
@@ -17,6 +20,9 @@ set autoindent
 set smartindent
 set cindent
 filetype plugin indent on
+
+" Color Scheme"
+colorscheme slate
 
 " Show matching bracket"
 set showmatch
