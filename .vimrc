@@ -27,6 +27,10 @@ colorscheme slate
 " Show matching bracket"
 set showmatch
 
+" Indent and unindent lines by tab width in visual mode"
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+
 " Bracket autocompletion
 inoremap { {}<Esc>ha
 inoremap ( ()<Esc>ha
