@@ -8,6 +8,9 @@ set hlsearch
 nnoremap jk :nohl<CR> 
 inoremap jk <Esc>:noh<CR>
 
+" Exit visual mode to normal"
+vnoremap jk <Esc>
+
 " Move one char right in insert mode" 
 imap hj <right> 
 
