@@ -11,6 +11,9 @@ inoremap jk <Esc>:noh<CR>
 " Move one char right in insert mode" 
 imap jh <right> 
 
+" Show matches in search"
+shortmess-=S
+
 " Indentation
 set tabstop=4
 set shiftwidth=4
