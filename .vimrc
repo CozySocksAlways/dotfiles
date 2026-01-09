@@ -54,7 +54,7 @@ fun! TabComplete()
 endfun
 
 " Minimalist-AutoCompletePop-Plugin
-set completeopt=menu,menuone,noinsert
+set completeopt=menu,menuone,noinsert,noselect
 inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
 autocmd InsertCharPre * call AutoComplete()
 fun! AutoComplete()
