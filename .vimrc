@@ -5,11 +5,8 @@ nnoremap <C-e> 3<C-e>
 set hlsearch
 
 " Escape to normal mode and toggle hl search"
-nnoremap jk :nohl<CR> 
+nnoremap gh :nohl<CR> 
 inoremap jk <Esc>:noh<CR>
-
-" Exit visual mode to normal"
-vnoremap jn <Esc>
 
 " Move one char right in insert mode" 
 imap jh <right> 
