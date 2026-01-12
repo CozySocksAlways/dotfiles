@@ -24,6 +24,9 @@ set wildignore+=*/venv/*,*/.venv/*,*/__pycache__/*,*/.tags/*,*/.git/*,*/.pytest_
 " No mouse                                                                                                                                                            
 set mouse=
 
+" Vertical split to right"
+set splitright
+
 " Indentation
 set tabstop=4
 set shiftwidth=4
