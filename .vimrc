@@ -19,8 +19,8 @@ set path+=**
                                                                                                                                                                       
 " Display matching files in tab completion"                                                                                                                           
 set wildmenu                                                                                                                                                          
-set wildignore+=*/venv/*,*/.venv/*,*/__pycache__/*,                                                                                                                   
-                \*/.tags/*,*/.git/*,*/.pytest_cache/*                                                                                                                 
+set wildignore+=*/venv/*,*/.venv/*,*/__pycache__/*,*/.tags/*,*/.git/*,*/.pytest_cache/*
+
 " No mouse                                                                                                                                                            
 set mouse=
 
