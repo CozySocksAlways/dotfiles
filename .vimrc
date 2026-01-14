@@ -14,6 +14,19 @@ imap jh <right>
 " Show matches in search"
 set shortmess-=S
 
+"  Search down sub-folders, useful for tab completion"                                                                                                                
+set path+=**                                                                                                                                                          
+                                                                                                                                                                      
+" Display matching files in tab completion"                                                                                                                           
+set wildmenu                                                                                                                                                          
+set wildignore+=*/venv/*,*/.venv/*,*/__pycache__/*,*/.tags/*,*/.git/*,*/.pytest_cache/*
+
+" No mouse                                                                                                                                                            
+set mouse=
+
+" Vertical split to right"
+set splitright
+
 " Indentation
 set tabstop=4
 set shiftwidth=4
