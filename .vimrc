@@ -38,7 +38,7 @@ set cindent
 filetype plugin indent on
 
 " Color Scheme"
-colorscheme slate
+" colorscheme sorbet
 
 " Show matching bracket"
 set showmatch
