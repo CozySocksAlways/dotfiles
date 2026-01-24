@@ -1,4 +1,4 @@
-set number
+set relativenumber
 syntax on
 nnoremap <C-y> 3<C-y>
 nnoremap <C-e> 3<C-e>
@@ -9,7 +9,7 @@ nnoremap gh :nohl<CR>
 inoremap jk <Esc>:noh<CR>
 
 " Move one char right in insert mode" 
-imap jh <right> 
+imap jh <right>
 
 " Show matches in search"
 set shortmess-=S
@@ -38,7 +38,7 @@ set cindent
 filetype plugin indent on
 
 " Color Scheme"
-" colorscheme sorbet
+colorscheme sorbet
 
 " Show matching bracket"
 set showmatch
