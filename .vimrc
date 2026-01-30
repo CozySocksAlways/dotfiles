@@ -1,8 +1,19 @@
 set relativenumber
+set number " Show current line number instead of 0"
 syntax on
 nnoremap <C-y> 3<C-y>
 nnoremap <C-e> 3<C-e>
 set hlsearch
+
+" Map space to leader in normal mode"
+nnoremap <Space> <Nop>
+let mapleader = " "
+
+" open current split in own tab (like zoom in tmux) and keep cursor pos
+nnoremap <LEADER>z mx:tabedit %<CR>g`x
+
+" Run git blame on current line"
+command! Bline execute '!git blame -L ' . line('.') . ',' . line('.') . ' %'
 
 " Escape to normal mode and toggle hl search"
 nnoremap gh :nohl<CR> 
@@ -109,3 +120,15 @@ autocmd FileType vim vnoremap <buffer> gc :<C-U>call ToggleComment('"', line("'<
 autocmd FileType python,sh,zsh,bash vnoremap <buffer> gc :<C-U>call ToggleComment("#", line("'<"), line("'>"))<CR>
 autocmd FileType c,cpp vnoremap <buffer> gc :<C-U>call ToggleComment("//", line("'<"), line("'>"))<CR>
 autocmd FileType php,markdown vnoremap <buffer> gc :<C-U>call ToggleComment("#", line("'<"), line("'>"))<CR>
+
+" Blame and show commit"
+function! BlameAndShow()
+	let lnum = line('.')
+	let file = expand('%:p')
+	let hash = system('git blame -L ' . lnum . ',' . lnum . ' ' . shellescape(file))
+	let hash = split(hash)[0]
+	execute '!git show -s --format="\%h | \%an | \%ad | \%s" --date=short ' . hash
+endfunction
+
+" Blame and show current line"
+command! -nargs=0 Sline call BlameAndShow()
