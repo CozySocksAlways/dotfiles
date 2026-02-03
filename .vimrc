@@ -45,7 +45,7 @@ set softtabstop=0
 set noexpandtab
 set autoindent
 set smartindent
-set cindent
+" set cindent
 filetype plugin indent on
 
 " Color Scheme"

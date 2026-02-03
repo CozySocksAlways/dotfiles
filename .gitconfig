@@ -1,5 +1,19 @@
 [user]
-        name = Harris Antony Jos
-        email = ha.jos@fz-juelich.de
+	name = Harris Antony Jos
+	email = ha.jos@fz-juelich.de
 [alias]
-        add-commit = !git add -A && git commit
+	add-commit = !git add -A && git commit
+[merge]
+  tool = nvimdiff
+[mergetool]
+  prompt = false
+  keepBackup = false
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"
+
+[log]
+	decorate=auto
+	abbrevCommit=true
+
+[format]
+	pretty=oneline
