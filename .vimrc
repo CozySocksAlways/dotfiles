@@ -12,6 +12,16 @@ let mapleader = " "
 " open current split in own tab (like zoom in tmux) and keep cursor pos
 nnoremap <LEADER>z mx:tabedit %<CR>g`x
 
+" Tab and pane open and close with leader"
+nnoremap <LEADER>t :tabnew<CR>
+nnoremap <LEADER>x :tabclose<CR>
+nnoremap <LEADER>v :vsplit<CR>
+nnoremap <LEADER>q :quit<CR>
+
+" Copen leader alias"
+nnoremap <LEADER>n :cnext<CR>
+nnoremap <LEADER>p :cprevious<CR>
+
 " Run git blame on current line"
 command! Bline execute '!git blame -L ' . line('.') . ',' . line('.') . ' %'
 
@@ -45,8 +55,12 @@ set softtabstop=0
 set noexpandtab
 set autoindent
 set smartindent
+
 " set cindent
 filetype plugin indent on
+
+" Set whitespace character; use set list / nolist to toggle
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
 " Color Scheme"
 colorscheme sorbet
@@ -65,6 +79,22 @@ inoremap [ []<Esc>ha
 inoremap " ""<Esc>ha
 inoremap ' ''<Esc>ha
 inoremap ` ``<Esc>ha
+
+" Leader switch tabs"
+noremap <LEADER>1 1gt
+noremap <LEADER>2 2gt
+noremap <LEADER>3 3gt
+noremap <LEADER>4 4gt
+noremap <LEADER>5 5gt
+noremap <LEADER>6 6gt
+noremap <LEADER>7 7gt
+noremap <LEADER>8 8gt
+noremap <LEADER>9 9gt
+noremap <LEADER>0 :tablast<CR>
+" Go to last active tab
+au TabLeave * let g:lasttab = tabpagenr()
+nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<CR>
+vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<CR>
 
 " From https://gist.github.com/maxboisvert/a63e96a67d0a83d71e9f49af73e71d93
 " Minimalist-TabComplete-Plugin
@@ -132,3 +162,13 @@ endfunction
 
 " Blame and show current line"
 command! -nargs=0 Sline call BlameAndShow()
+
+" Snippets "
+let g:snippet_dir = expand('~/repos/dotfiles/snippets')
+
+function! InsertSnippet(snippet_name)
+	execute "read " . g:snippet_dir . "/" . a:snippet_name
+endfunction
+
+nnoremap <LEADER>r1 :call InsertSnippet('logger.txt')<CR>
+nnoremap <LEADER>r2 :call InsertSnippet('pytestmark.txt')<CR>
