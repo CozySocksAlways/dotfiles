@@ -26,3 +26,12 @@ uvenv() {
 	DOC_PATH="$(pwd)/$VENV_NAME/doc.md"
 	echo "$DOCSTRING" > "$DOC_PATH"
 }
+
+
+# Start nvim as a server
+alias nvs='nvim --listen /tmp/pdb_nvim -i NONE'
+
+# Start pytest with custom debugger
+npytest() {
+    pytest --pdb --pdbcls=nvimpdb.debugger:NvimPdb -s "$@"
+}

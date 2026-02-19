@@ -9,6 +9,9 @@ set hlsearch
 nnoremap <Space> <Nop>
 let mapleader = " "
 
+" Add cursor line highlight"
+set cursorline
+
 " open current split in own tab (like zoom in tmux) and keep cursor pos
 nnoremap <LEADER>z mx:tabedit %<CR>g`x
 
@@ -27,10 +30,10 @@ command! Bline execute '!git blame -L ' . line('.') . ',' . line('.') . ' %'
 
 " Escape to normal mode and toggle hl search"
 nnoremap gh :nohl<CR> 
-inoremap jk <Esc>:noh<CR>
+" inoremap jk <Esc>:noh<CR>
 
 " Move one char right in insert mode" 
-imap jh <right>
+imap jk <right>
 
 " Show matches in search"
 set shortmess-=S
@@ -172,3 +175,5 @@ endfunction
 
 nnoremap <LEADER>r1 :call InsertSnippet('logger.txt')<CR>
 nnoremap <LEADER>r2 :call InsertSnippet('pytestmark.txt')<CR>
+nnoremap <LEADER>r3 :call InsertSnippet('pymain.txt')<CR>
+nnoremap <LEADER>r4 :call InsertSnippet('debug.txt')<CR>
