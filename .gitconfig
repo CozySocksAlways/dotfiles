@@ -6,6 +6,7 @@
 	add-commit = !git add -A && git commit
 	s = status
 	b = branch
+	l = log -8
 
 [merge]
   tool = nvimdiff

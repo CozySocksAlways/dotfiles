@@ -35,3 +35,8 @@ alias nvs='nvim --listen /tmp/pdb_nvim -i NONE'
 npytest() {
     pytest --pdb --pdbcls=nvimpdb.debugger:NvimPdb -s "$@"
 }
+
+# Clean swap files
+alias cleanswp='rm ~/.local/state/nvim/swap/*.sw?'
+
+alias ied='nvim ~/.config/i3/config'

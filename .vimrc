@@ -1,5 +1,9 @@
+" Line Numbering"
 set relativenumber
+nnoremap <leader>rn :set relativenumber!<CR>
 set number " Show current line number instead of 0"
+
+" syntax, search and motion"
 syntax on
 nnoremap <C-y> 3<C-y>
 nnoremap <C-e> 3<C-e>
@@ -7,6 +11,7 @@ set hlsearch
 
 " Map space to leader in normal mode"
 nnoremap <Space> <Nop>
+vnoremap <Space> <Nop>
 let mapleader = " "
 
 " Add cursor line highlight"
@@ -98,6 +103,13 @@ noremap <LEADER>0 :tablast<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<CR>
 vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<CR>
+
+" Toggle cc
+command! ToggleCC if &cc == '' | set cc=79 | else | set cc= | endif
+nnoremap <leader>cc :ToggleCC<CR>
+
+" Toggle list
+nnoremap <leader>ll :set list!<CR>
 
 " From https://gist.github.com/maxboisvert/a63e96a67d0a83d71e9f49af73e71d93
 " Minimalist-TabComplete-Plugin
