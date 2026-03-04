@@ -40,3 +40,7 @@ npytest() {
 alias cleanswp='rm ~/.local/state/nvim/swap/*.sw?'
 
 alias ied='nvim ~/.config/i3/config'
+
+
+# Copy to clipboard
+alias xcpy='xclip -selection clipboard'

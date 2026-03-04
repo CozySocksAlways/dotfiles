@@ -96,7 +96,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+c focus child
 
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -135,7 +135,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3blocks -c ~/.config/i3/i3blocks.conf
 }
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -149,6 +149,27 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+# define xrandr bindigns for workspace; check screen_scripts
+# going with primary / seconday defs
+
+# Primary display workspaces
+workspace 1 output primary
+workspace 2 output primary
+workspace 3 output primary
+workspace 4 output primary
+workspace 5 output primary
+
+# ToDo secondary has no meaning here, i think primary as well
+# it depends on the setup, now hot fix is to just run the respective script again
+# to fix once launched
+# possible solution is to have a state file which can be read
+# Secondary display workspaces
+workspace 6 output secondary
+workspace 7 output secondary
+workspace 8 output secondary
+workspace 9 output secondary
+workspace 10 output secondary
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -174,7 +195,10 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-assign [class="obsidian"] workspace 2
+assign [class="obsidian"] workspace 9
+assign [class="todoist"] workspace 8
+assign [class="thunderbird_thunderbird"] workspace 7
+assign [class="matttermost-desktop"] workspace 6
 # Config reload pipeline
 bindsym $mod+Shift+r exec ~/.config/i3/build.sh
 
@@ -188,6 +212,28 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDI
 bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id wpctl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Lock Screen
+bindsym Mod4+l exec --no-startup-id \
+i3lock -i ~/.config/i3/images/ocean2.jpg && \
+sleep 0.3 && \
+xset dpms force off
+
+# No startup id need s othat i3 doesn't show the script running
+# Switch to laptop alone
+bindsym Mod4+o exec --no-startup-id ~/.config/i3/screen_scripts/laptop.sh
+
+# Switch to dock
+bindsym Mod4+d exec --no-startup-id ~/.config/i3/screen_scripts/dock.sh
+
+# Switch to projector
+bindsym Mod4+p exec --no-startup-id ~/.config/i3/screen_scripts/project.sh
+
+# switch screen mode
+bindsym $mod+F8 exec --no-startup-id ~/.config/i3/screen_scripts/switch_screen.sh
+
+# move workspace to diff screen
+bindsym $mod+Shift+m move workspace to output next
 ############################################################
 # Touchpad Input Configuration
 # For i3 window manager
@@ -233,6 +279,6 @@ default_border pixel 2
 
 # ToDo: refer to part 3 of the series
 #				 border bg   text   indicator child_border
-client.focused   $blue $black $white $black $blue
+# client.focused   $blue $black $black $black $blue
 
 

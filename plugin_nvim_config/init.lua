@@ -18,3 +18,10 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- Load commands
 require("ruff.commands")
+
+-- black bg
+vim.cmd([[
+  highlight Normal guibg=#000000
+  highlight NormalFloat guibg=#000000
+  highlight LineNr guifg=#888888 guibg=#000000
+]])
