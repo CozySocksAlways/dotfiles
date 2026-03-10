@@ -12,3 +12,5 @@ xrandr \
   --output HDMI-1 --off
 
 i3-msg reload >/dev/null 2>&1
+polybar-msg cmd quit
+MONITOR=eDP-1  polybar -c ~/.config/i3/polyconf.ini 2>&1 | tee -a /tmp/polybar1.log & disown

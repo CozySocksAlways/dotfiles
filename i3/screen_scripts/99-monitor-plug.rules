@@ -1,0 +1,1 @@
+KERNEL=="card1", SUBSYSTEM=="drm", ACTION=="change", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/run/user/1001/gdm/Xauthority", RUN+="/usr/bin/touch /tmp/udev-test"
