@@ -76,6 +76,10 @@ colorscheme sorbet
 " Show matching bracket"
 set showmatch
 
+" Diff unsaved buffer
+command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
+                \ | diffthis | wincmd p | diffthis
+
 " Indent and unindent lines by tab width in visual mode"
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv

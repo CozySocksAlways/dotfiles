@@ -44,3 +44,10 @@ alias ied='nvim ~/.config/i3/config'
 
 # Copy to clipboard
 alias xcpy='xclip -selection clipboard'
+
+# lisa
+alias lisa='(echo "inode blocks perms links owner group size date name"; ls -lisa)'
+
+# Quack quack
+# alias setspack='source /home/jos/repos/spack/v1.0.1/share/spack/setup-env.sh'
+alias setspack='source /home/jos/repos/spack/v0.23.1/share/spack/setup-env.sh'
