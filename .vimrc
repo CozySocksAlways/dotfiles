@@ -14,6 +14,10 @@ nnoremap <Space> <Nop>
 vnoremap <Space> <Nop>
 let mapleader = " "
 
+" temporary mapping for sort"
+vnoremap <LEADER>j :sort!<CR>
+vnoremap <LEADER>k :sort<CR>
+
 " Add cursor line highlight"
 set cursorline
 
