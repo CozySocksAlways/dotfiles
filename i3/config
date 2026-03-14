@@ -205,8 +205,8 @@ assign [class="matttermost-desktop"] workspace 6
 bindsym $mod+Shift+r exec ~/.config/i3/build.sh
 
 # Brightness controls
-bindsym XF86MonBrightnessUp exec brightnessctl set +10%
-bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
 # Volume controls
 set $refresh_i3status killall -SIGUSR1 i3status
