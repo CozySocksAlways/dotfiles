@@ -1,6 +1,8 @@
 set editing-mode vi
 $if mode=vi
-       "jk":vi-movement-mode
        "\C-l": clear-screen
        "\C-c": abort
 $endif 
+
+# Colored stats?
+set colored-stats on

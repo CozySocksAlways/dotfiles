@@ -12,7 +12,7 @@ return {
 		 build = ':TSUpdate',
 		 config = function()
 			 require("nvim-treesitter").setup({
-				ensure_installed = {"python, snakemake"},
+				ensure_installed = {"python, cpp"},
 				highlight = {
 					enable = true,
 					additional_vim_regex_highlighting = false,
