@@ -45,6 +45,9 @@ alias ied='nvim ~/.config/i3/config'
 # Copy to clipboard
 alias xcpy='xclip -selection clipboard'
 
+# ll
+alias ll='ls -la'
+
 # lisa
 alias lisa='(echo "inode blocks perms links owner group size date name"; ls -lisa)'
 

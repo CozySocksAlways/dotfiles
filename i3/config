@@ -10,7 +10,7 @@ set $mod Mod1
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:System San Francisco Display 13
+font pango:monospace Display 13
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -134,11 +134,9 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#         status_command i3blocks -c ~/.config/i3/i3blocks.conf
-# }
-
-exec_always --no-startup-id /home/jos/repos/dotfiles/i3/scripts/polylaunch.sh
+bar {
+        status_command i3status --config ~/.config/i3/i3status.conf
+}
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
@@ -215,12 +213,6 @@ bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDI
 bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id wpctl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# Lock Screen
-bindsym Mod4+l exec --no-startup-id \
-i3lock -i ~/.config/i3/images/ocean2.jpg && \
-sleep 0.3 && \
-xset dpms force off
-
 # No startup id need s othat i3 doesn't show the script running
 # Switch to laptop alone
 bindsym Mod4+o exec --no-startup-id ~/.config/i3/screen_scripts/laptop.sh
@@ -237,9 +229,6 @@ bindsym $mod+F8 exec --no-startup-id ~/.config/i3/screen_scripts/switch_screen.s
 # move workspace to diff screen
 bindsym $mod+Shift+m move workspace to output next
 
-# Open the startup apps
-bindsym Mod4+s exec --no-startup-id sh -c 'obsidian & sleep 0.1 & todoist & sleep 0.1 & thunderbird & sleep 0.1 & mattermost-desktop'
-
 # Passthrough mode
 # enter passthrough mode
 bindsym $mod+Shift+p mode "passthrough"
@@ -249,17 +238,35 @@ mode "passthrough" {
     bindsym Escape mode "default"
     bindsym $mod+Shift+p mode "default"
 }
+
+# DPMS settings (i.e. when screen off and such)
+# standy 0; suspend 300s; Off 300s
+exec --no-startup-id xset +dpms dpms 0 300 300
+
+# Start xss-lock on suspend/idle
+exec --no-startup-id xss-lock --transfer-sleep-lock -- \
+	i3lock \
+	  --nofork \
+	  --ignore-empty-password \
+	  --image='/home/jos/.config/i3/images/lockimage.jpg'
+
+# Manual lock
+bindsym Mod4+l exec --no-startup-id \
+	i3lock --ignore-empty-password \
+		  --image='/home/jos/.config/i3/images/lockimage.jpg' && \
+	sleep 0.3 && \
+	xset dpms force off
+
 ############################################################
-# Touchpad Input Configuration
 # For i3 window manager
 #
-# Device: SYNA8022:00 06CB:CE67 Touchpad
+# Device: ELAN06E8:00 04F3:332E Touchpad
 #
 ############################################################
 
 # Enable tapping (allows double tap = left click)
 exec --no-startup-id xinput set-prop \
-"SYNA8022:00 06CB:CE67 Touchpad" \
+"ELAN06E8:00 04F3:332E Touchpad" \
 "libinput Tapping Enabled" 1
 
 # Enable standard click mapping
@@ -268,25 +275,22 @@ exec --no-startup-id xinput set-prop \
 # 2 finger tap = right click
 # 3 finger tap = middle click
 exec --no-startup-id xinput set-prop \
-"SYNA8022:00 06CB:CE67 Touchpad" \
+"ELAN06E8:00 04F3:332E Touchpad" \
 "libinput Click Method Enabled" 0 1
 
 # Enable natural scrolling
-# Scroll direction matches mobile device behavior
 exec --no-startup-id xinput set-prop \
-"SYNA8022:00 06CB:CE67 Touchpad" \
+"ELAN06E8:00 04F3:332E Touchpad" \
 "libinput Natural Scrolling Enabled" 1
 
 # Enable palm detection
-# Helps prevent cursor jumping while typing
 exec --no-startup-id xinput set-prop \
-"SYNA8022:00 06CB:CE67 Touchpad" \
+"ELAN06E8:00 04F3:332E Touchpad" \
 "libinput Palm Detection Enabled" 1
 
-# Optional: Reduce palm sensitivity threshold (more stable typing)
-# Uncomment if you still get accidental cursor movement
+# Optional: Reduce palm sensitivity threshold
 exec --no-startup-id xinput set-prop \
-"SYNA8022:00 06CB:CE67 Touchpad" \
+"ELAN06E8:00 04F3:332E Touchpad" \
 "libinput Palm Detection Threshold" 40
 
 # remove title bar

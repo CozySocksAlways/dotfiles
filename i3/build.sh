@@ -15,6 +15,7 @@ cat \
 	"$CONFIG_DIR/base.conf" \
 	"$CONFIG_DIR/workspace.conf" \
 	"$CONFIG_DIR/keybind.conf" \
+	"$CONFIG_DIR/i3lock.conf" \
 	"$CONFIG_DIR/input.conf" \
 	"$CONFIG_DIR/appearance.conf" \
 	>> "$OUTPUT"
