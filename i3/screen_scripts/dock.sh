@@ -10,6 +10,8 @@ xrandr \
   --output DP-1-3 --mode 2560x1440 --primary --right-of eDP-1 \
   --output DP-1-2 --mode 2560x1440 --right-of DP-1-3
 
+ln -sf ~/.config/i3/images/dockimage.jpg ~/.config/i3/images/current_image.jpg
+
 i3-msg reload >/dev/null 2>&1
 "${HOME}/.config/i3/screen_scripts/wsnormalize.sh"
 

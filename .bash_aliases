@@ -54,3 +54,6 @@ alias setspack='source /home/jos/repos/spack/v0.23.1/share/spack/setup-env.sh'
 
 # Ninja build
 alias nbuild='cmake -S . -B build -G Ninja && cmake --build build'
+
+# Personal fox
+alias pfox='setsid firefox -p Personal'

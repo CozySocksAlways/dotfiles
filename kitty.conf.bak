@@ -3,7 +3,7 @@
 # kitten icat for images
 
 # BEGIN_KITTY_THEME
-# Adwaita darker
+# Liquid Carbon Transparent
 include current-theme.conf
 # END_KITTY_THEME
 #
@@ -29,6 +29,6 @@ map ctrl+= change_font_size all +1.0
 map ctrl+- change_font_size all -1.0
 
 # Block cursor
-# cursor_shape block
-# cursor_blink_interval 0
+cursor_shape block
+cursor_blink_interval 0
 # cursor_beam_thickness 2.5
