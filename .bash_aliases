@@ -27,6 +27,10 @@ uvenv() {
 	echo "$DOCSTRING" > "$DOC_PATH"
 }
 
+uenv() {
+	uvenv "$@" &> /dev/null || return 1
+	senv "$1"
+}
 
 # Start nvim as a server
 alias nvs='nvim --listen /tmp/pdb_nvim -i NONE'
@@ -57,3 +61,12 @@ alias nbuild='cmake -S . -B build -G Ninja && cmake --build build'
 
 # Personal fox
 alias pfox='setsid firefox -p Personal'
+
+# Bat cat
+alias bat='batcat -pp'
+alias batl='batcat --pager=p'
+alias bath='batcat --style=header'
+
+## Up a dir
+alias ..='cd ..'
+alias ...='cd ../..'

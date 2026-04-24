@@ -1,6 +1,6 @@
 " Line Numbering"
 set relativenumber
-nnoremap <leader>rn :set relativenumber!<CR>
+" nnoremap <leader>mn :set relativenumber!<CR>
 set number " Show current line number instead of 0"
 
 " syntax, search and motion"
@@ -197,3 +197,16 @@ nnoremap <LEADER>r1 :call InsertSnippet('logger.txt')<CR>
 nnoremap <LEADER>r2 :call InsertSnippet('pytestmark.txt')<CR>
 nnoremap <LEADER>r3 :call InsertSnippet('pymain.txt')<CR>
 nnoremap <LEADER>r4 :call InsertSnippet('debug.txt')<CR>
+
+" Toggle relativenumber"
+function! ToggleNumber()
+	if &relativenumber
+		set norelativenumber
+		set number
+	else
+		set relativenumber
+		set number
+	endif
+endfunction
+
+nnoremap <LEADER>mn :call ToggleNumber()<CR>
