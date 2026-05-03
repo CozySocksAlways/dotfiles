@@ -32,6 +32,8 @@ uenv() {
 	senv "$1"
 }
 
+# A uv alias for simpler toml file projects
+
 # Start nvim as a server
 alias nvs='nvim --listen /tmp/pdb_nvim -i NONE'
 
@@ -70,3 +72,7 @@ alias bath='batcat --style=header'
 ## Up a dir
 alias ..='cd ..'
 alias ...='cd ../..'
+
+## Make a venv with pip
+alias penv='python -m venv .venv && source .venv/bin/activate'
+alias prenv='rm -rf .venv'

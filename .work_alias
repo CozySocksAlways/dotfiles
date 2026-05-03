@@ -1,0 +1,7 @@
+alias ele='cd /home/jos/repos/elephant'
+
+alias task='cd /home/jos/repos/tasks-diary'
+
+alias scs='cd /home/jos/.config/i3/screen_scripts/'
+
+alias repos='cd /home/jos/repos/'

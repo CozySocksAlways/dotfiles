@@ -1,3 +1,5 @@
+[init]
+	defaultBranch = main
 [user]
 	name = Harris Antony Jos
 	email = ha.jos@fz-juelich.de
@@ -7,7 +9,7 @@
 	s = status
 	b = branch
 	l = log -8
-
+	cam = commit -a -m
 [merge]
   tool = nvimdiff
 

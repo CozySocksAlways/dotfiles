@@ -88,6 +88,10 @@ command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 
+" Search for visually selected string"
+" In visual mode select string then do //
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
 " Bracket autocompletion
 inoremap { {}<Esc>ha
 inoremap ( ()<Esc>ha

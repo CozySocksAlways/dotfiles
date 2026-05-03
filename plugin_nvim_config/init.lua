@@ -11,7 +11,7 @@ vim.api.nvim_create_user_command('Diff', function(opts)
 end, { nargs = '?' })
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'python', 'cpp', 'c', 'cmake' },
+  pattern = { 'python', 'cpp', 'c', 'cmake', 'yaml' },
   callback = function() vim.treesitter.start() end,
 })
 
