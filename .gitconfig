@@ -10,6 +10,7 @@
 	b = branch
 	l = log -8
 	cam = commit -a -m
+	sdate = show -s --format="%aD %an %s"
 [merge]
   tool = nvimdiff
 

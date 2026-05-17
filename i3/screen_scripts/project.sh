@@ -10,7 +10,7 @@ fi
 # Near aquarium big one: 3840x2160
 xrandr \
   --output eDP-1 --auto --primary \
-  --output HDMI-1 --mode 3840x2160 --above eDP-1 \
+  --output HDMI-1 --mode 1920x1080 --above eDP-1 \
   --output DP-1-3 --off \
   --output DP-1-2 --off
 
