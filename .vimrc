@@ -214,3 +214,9 @@ function! ToggleNumber()
 endfunction
 
 nnoremap <LEADER>mn :call ToggleNumber()<CR>
+
+" Add non exisiting dir before save"
+augroup AutoMkdir
+  autocmd!
+  autocmd BufWritePre * call mkdir(expand('%:p:h'), 'p')
+augroup END

@@ -8,9 +8,10 @@
 	add-commit = !git add -A && git commit
 	s = status
 	b = branch
-	l = log -8
+	l = log -8 --all
 	cam = commit -a -m
 	sdate = show -s --format='%aD | %an | %s'
+	lname = log --oneline --format='%aD | %an | %s'
 [merge]
   tool = nvimdiff
 
