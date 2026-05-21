@@ -8,7 +8,7 @@
 	add-commit = !git add -A && git commit
 	s = status
 	b = branch
-	l = log -8 --all
+	l = log -8
 	cam = commit -a -m
 	sdate = show -s --format='%aD | %an | %s'
 	lname = log --oneline --format='%aD | %an | %s'
