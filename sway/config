@@ -1,0 +1,316 @@
+# --------------------------------------------------
+# AUTO-GENERATED FILE — DO NOT EDIT
+# So autogen'ing this using build.sh
+# --------------------------------------------------
+# sway config
+
+set $mod Mod1
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:monospace 15
+
+# Start XDG autostart .desktop files using dex.
+exec dex --autostart --environment sway
+
+# swayidle: auto-lock after 5min idle, DPMS off after 10min, lock before sleep
+# Replaces xss-lock + i3lock from the X11 setup
+#
+# 'lock' fires on loginctl lock-session (used by Mod4+l keybind)
+# 'resume' re-enables the display on activity — this is the only reliable
+#   way to wake from DPMS; manual swaymsg dpms off bypasses this handler.
+exec swayidle -w \
+    lock 'swaylock -f' \
+    timeout 300 'loginctl lock-session' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f'
+
+# NetworkManager applet (--indicator enables the systray icon on Wayland)
+exec nm-applet --indicator
+
+# Export Wayland env vars to systemd user session so systemd-started processes
+# know about the Wayland display. Also restart portals (needed for file picker).
+# Note: WAYLAND_DISPLAY + XDG_CURRENT_DESKTOP replace X11's DISPLAY + XAUTHORITY
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && \
+systemctl --user reset-failed xdg-desktop-portal-gtk && \
+systemctl --user restart xdg-desktop-portal-gtk && \
+systemctl --user restart xdg-desktop-portal
+
+# Notification daemon (dunst works on Wayland; mako is a lighter Wayland-native alternative)
+exec dunst
+
+# Use Mouse+$mod to drag floating windows
+# Note: 'normal' is required in sway (i3 has no second argument)
+floating_modifier $mod normal
+
+tiling_drag disable
+
+# start a terminal
+bindsym $mod+Return exec kitty
+
+# kill focused window
+bindsym $mod+q kill
+
+# launcher — wofi is a Wayland-native dmenu replacement
+# Alternatives: bemenu-run, fuzzel, rofi-wayland
+bindsym $mod+d exec wofi --show run
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+b split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+c focus child
+
+# exit sway (logs you out of your Wayland session)
+# swaynag replaces i3-nagbar
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # Pressing left will shrink the window's width.
+        # Pressing right will grow the window's width.
+        # Pressing up will shrink the window's height.
+        # Pressing down will grow the window's height.
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Status bar
+# swaybar uses the same protocol as i3bar — i3status.conf is reusable as-is
+bar {
+        status_command i3status --config ~/.config/sway/i3status.conf
+}
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Output assignments for workspaces
+# eDP-1  = laptop built-in display
+# DP-7 = dock left monitor (primary external)
+# DP-6 = dock right monitor (secondary external)
+#
+# Note: sway doesn't have symbolic "primary"/"secondary" — we use real connector names.
+# If workspaces land on wrong outputs after boot, re-run the relevant screen script.
+# Check output names with: swaymsg -t get_outputs | grep name
+
+# Laptop / primary display workspaces
+workspace 1 output eDP-1
+workspace 2 output eDP-1
+workspace 3 output eDP-1
+workspace 4 output eDP-1
+workspace 5 output eDP-1
+
+# External / secondary display workspaces
+workspace 6 output DP-7
+workspace 7 output DP-7
+workspace 8 output DP-7
+workspace 9 output DP-7
+workspace 10 output DP-7
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Window-to-workspace assignments
+# These apps may run via XWayland; class= works for XWayland, app_id= for native Wayland.
+# Add app_id variants below if you switch to native Wayland builds.
+assign [class="obsidian"] workspace 9
+assign [class="Todoist"] workspace 8
+assign [class="thunderbird"] workspace 7
+assign [class="Mattermost"] workspace 6
+# Config reload pipeline
+bindsym $mod+Shift+r exec ~/.config/sway/build.sh
+
+# Brightness controls
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# Volume controls
+# i3status listens for SIGUSR1 to refresh immediately after volume change
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && $refresh_i3status
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && $refresh_i3status
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec wpctl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Lock Screen
+# loginctl lock-session signals swayidle's 'lock' event → runs swaylock -f
+# This lets swayidle own the full DPMS lifecycle (including resume on wake).
+# Direct swaymsg dpms off had no resume handler, leaving the screen unresponsive.
+bindsym Mod4+l exec loginctl lock-session
+
+# Switch to laptop alone
+bindsym Mod4+o exec ~/.config/sway/screen_scripts/laptop.sh
+
+# Switch to dock
+bindsym Mod4+d exec ~/.config/sway/screen_scripts/dock.sh
+
+# Switch to projector
+bindsym Mod4+p exec ~/.config/sway/screen_scripts/project.sh
+
+# Switch to mirror
+bindsym Mod4+m exec ~/.config/sway/screen_scripts/mirror.sh
+
+# Cycle through screen modes (laptop → dock → project)
+bindsym $mod+F8 exec ~/.config/sway/screen_scripts/switch_screen.sh
+
+# move workspace to different screen
+bindsym $mod+Shift+m move workspace to output next
+
+# Open the startup apps
+bindsym Mod4+s exec sh -c 'obsidian & sleep 0.1 & todoist & sleep 0.1 & thunderbird & sleep 0.1 & mattermost-desktop'
+
+# Passthrough mode — all key bindings pass through to the focused window
+bindsym $mod+Shift+p mode "passthrough"
+
+mode "passthrough" {
+    # leave passthrough
+    bindsym Escape mode "default"
+    bindsym $mod+Shift+p mode "default"
+}
+
+# Calendar
+bindsym Mod4+c exec gsimplecal
+
+# Scratchpad window
+# Start the scratchpad session on login (idempotent — safe to re-run)
+exec kitty \
+    --config ~/.config/sway/scratchpad/scratch.conf \
+    --class kitty-scratch \
+    -e tmux new-session \
+        -A -s scratch -c /tmp \
+        -f ~/.config/sway/scratchpad/tmuxscratch.conf \
+        nvim /tmp/scratch.md
+
+# Size and register it as scratchpad
+# Note: sway uses app_id instead of instance — kitty sets app_id from --class on Wayland
+for_window [app_id="kitty-scratch"] floating enable, resize set 1000 650, move scratchpad
+
+# Toggle with mod+grave (backtick)
+bindsym $mod+grave [app_id="kitty-scratch"] scratchpad show
+############################################################
+# Touchpad Input Configuration
+# For sway window manager — native libinput, no xinput needed
+#
+# Device: SYNA8022:00 06CB:CE67 Touchpad
+#
+# To target this device specifically instead of all touchpads:
+#   input "1739:52839:SYNA8022:00_06CB:CE67_Touchpad" { ... }
+# Get the exact sway id with: swaymsg -t get_inputs | grep identifier
+############################################################
+
+input type:touchpad {
+    # Enable tap-to-click
+    # 1-finger tap = left click, 2-finger = right click, 3-finger = middle click
+    tap enabled
+
+    # Clickfinger: finger count determines button (mirrors xinput "Click Method Enabled 0 1")
+    click_method clickfinger
+
+    # Natural scrolling — scroll direction matches mobile device behavior
+    natural_scroll enabled
+
+    # Disable While Typing — prevents cursor jumps when palms touch the pad
+    # This is the sway/libinput equivalent of "libinput Palm Detection Enabled"
+    dwt enabled
+
+    # Note: the xinput "libinput Palm Detection Threshold 40" has no direct
+    # sway config equivalent. libinput's default detection is usually fine.
+    # To fine-tune, create: /etc/libinput/local-overrides.quirks
+}
+
+# remove title bar
+default_border pixel 2
+
+# ToDo: refer to part 3 of the series
+#                border bg     text   indicator child_border
+# client.focused $blue  $black $black $black    $blue

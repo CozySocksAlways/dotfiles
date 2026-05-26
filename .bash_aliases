@@ -49,13 +49,13 @@ alias ied='nvim ~/.config/i3/config'
 
 
 # Copy to clipboard
-alias xcpy='xclip -selection clipboard'
+alias xcpy='wl-copy'
 
 # lisa
 alias lisa='(echo "inode blocks perms links owner group size date name"; ls -lisa)'
+alias ll='ls -la'
 
 # Quack quack
-# alias setspack='source /home/jos/repos/spack/v1.0.1/share/spack/setup-env.sh'
 alias setspack='source /home/jos/repos/spack/v0.23.1/share/spack/setup-env.sh'
 
 # Ninja build
@@ -65,14 +65,17 @@ alias nbuild='cmake -S . -B build -G Ninja && cmake --build build'
 alias pfox='setsid firefox -p Personal'
 
 # Bat cat
-alias bat='batcat -pp'
-alias batl='batcat --pager=p'
-alias bath='batcat --style=header'
+alias bat='bat -pp'
+alias batl='bat --pager=builtin'
+alias bath='bat --style=header'
 
-## Up a dir
+# Up a dir
 alias ..='cd ..'
 alias ...='cd ../..'
 
-## Make a venv with pip
+# Make a venv with pip
 alias penv='python -m venv .venv && source .venv/bin/activate'
 alias prenv='rm -rf .venv'
+
+# wayland "xrandr"
+alias wrandr='swaymsg -t get_outputs'

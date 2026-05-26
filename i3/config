@@ -10,7 +10,7 @@ set $mod Mod1
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:System San Francisco Display 13
+font pango:monospace 15
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -26,6 +26,21 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+
+# Start compositor (stuff like transparacy)
+exec --no-startup-id picom --backend glx
+
+# Export DISPLAY and XAUTH to systemd's user session
+# So processes started by systemd know these vals
+# Restart portal after i3 startup (needed for file picker)
+# Single line to avoid race condition and i3 config doesn't allow multi line with \
+exec --no-startup-id systemctl --user import-environment DISPLAY XAUTHORITY && \
+systemctl --user reset-failed xdg-desktop-portal-gtk && \
+systemctl --user restart xdg-desktop-portal-gtk && \
+systemctl --user restart xdg-desktop-portal
+
+# Notification daemon
+exec --no-startup-id dunst
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -134,11 +149,10 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#         status_command i3blocks -c ~/.config/i3/i3blocks.conf
-# }
+bar {
+        status_command i3status --config ~/.config/i3/i3status.conf
+}
 
-exec_always --no-startup-id /home/jos/repos/dotfiles/i3/scripts/polylaunch.sh
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
@@ -217,9 +231,13 @@ bindsym XF86AudioMicMute exec --no-startup-id wpctl set-source-mute @DEFAULT_SOU
 
 # Lock Screen
 bindsym Mod4+l exec --no-startup-id \
-i3lock --ignore-empty-password -i ~/.config/i3/images/current_image.jpg --tiling && \
+i3lock --ignore-empty-password && \
 sleep 0.3 && \
 xset dpms force off
+# bindsym Mod4+l exec --no-startup-id \
+# i3lock --ignore-empty-password -i ~/.config/i3/images/current_image.jpg --tiling && \
+# sleep 0.3 && \
+# xset dpms force off
 
 # No startup id need s othat i3 doesn't show the script running
 # Switch to laptop alone
@@ -230,6 +248,9 @@ bindsym Mod4+d exec --no-startup-id ~/.config/i3/screen_scripts/dock.sh
 
 # Switch to projector
 bindsym Mod4+p exec --no-startup-id ~/.config/i3/screen_scripts/project.sh
+
+# Switch to projector
+bindsym Mod4+m exec --no-startup-id ~/.config/i3/screen_scripts/mirror.sh
 
 # switch screen mode
 bindsym $mod+F8 exec --no-startup-id ~/.config/i3/screen_scripts/switch_screen.sh
@@ -249,6 +270,25 @@ mode "passthrough" {
     bindsym Escape mode "default"
     bindsym $mod+Shift+p mode "default"
 }
+
+# Calender
+bindsym Mod4+c exec --no-startup-id gsimplecal
+
+# Scratchpad window
+# Start the scratchpad session on login (idempotent — safe to re-run)
+exec --no-startup-id kitty \
+	--config ~/.config/i3/scratchpad/scratch.conf \
+	--class kitty-scratch \
+	-e tmux new-session \
+		-A -s scratch -c /tmp \
+		-f ~/.config/i3/scratchpad/tmuxscratch.conf \
+		nvim /tmp/scratch.md
+
+# Size and register it as scratchpad
+for_window [instance="kitty-scratch"] floating enable, resize set 1000 650, move scratchpad
+
+# Toggle with mod+grave (backtick)
+bindsym $mod+grave [instance="kitty-scratch"] scratchpad show
 ############################################################
 # Touchpad Input Configuration
 # For i3 window manager
