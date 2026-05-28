@@ -32,7 +32,8 @@ uenv() {
 	senv "$1"
 }
 
-# A uv alias for simpler toml file projects
+# uv run
+alias uvr='uv run'
 
 # Start nvim as a server
 alias nvs='nvim --listen /tmp/pdb_nvim -i NONE'
@@ -65,7 +66,7 @@ alias nbuild='cmake -S . -B build -G Ninja && cmake --build build'
 alias pfox='setsid firefox -p Personal'
 
 # Bat cat
-alias bat='bat -pp'
+alias batp='bat -pp'
 alias batl='bat --pager=builtin'
 alias bath='bat --style=header'
 

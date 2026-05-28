@@ -5,3 +5,8 @@ alias task='cd /home/jos/repos/tasks-diary'
 alias scs='cd /home/jos/.config/i3/screen_scripts/'
 
 alias repos='cd /home/jos/repos/'
+
+alias sand='cd /home/jos/sandbox'
+
+# Temporary alias
+alias ci='ele && nvim /home/jos/repos/elephant/.github/workflows/CI.yml'
