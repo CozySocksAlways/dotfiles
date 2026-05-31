@@ -9,6 +9,7 @@
 	s = status
 	b = branch
 	l = log -8
+	la = log --all --oneline --graph
 	cam = commit -a -m
 	cama = commit -a --amend
 	sdate = show -s --format='%aD | %an | %s'

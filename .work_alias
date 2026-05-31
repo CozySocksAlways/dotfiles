@@ -10,3 +10,15 @@ alias sand='cd /home/jos/sandbox'
 
 # Temporary alias
 alias ci='ele && nvim /home/jos/repos/elephant/.github/workflows/CI.yml'
+
+pushsync() {
+	git push "$@"
+	rsync -av --delete --exclude='.git' \
+	/home/jos/repos/gpu-convex-polytope-sampling/ nfzj:/home/jos_l/repos/paper/gpu-convex-polytope-sampling/
+}
+
+paperpush() {
+	git push "$@" origin && \
+	git push "$@" jugit && \
+	git push "$@" ibt72
+}
