@@ -6,7 +6,7 @@
 
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["tray", "pulseaudio", "network", "clock"],
+    "modules-right": ["pulseaudio", "network", "battery", "clock", "tray" ],
 
     "sway/workspaces": {
         "disable-scroll": true,
@@ -37,6 +37,15 @@
         "tooltip-format-wifi": "{signalStrength}% | {ipaddr}",
         "tooltip-format-ethernet": "{ipaddr}",
         "on-click": "nm-connection-editor"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{timeTo}, {power:.1f}W"
     },
 
     "pulseaudio": {

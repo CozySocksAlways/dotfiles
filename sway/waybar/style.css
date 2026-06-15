@@ -7,7 +7,6 @@
 window#waybar {
     background-color: #1e1e2e;
     color: #ffffff;
-    border-bottom: 2px solid #3b82f6;
 }
 
 #workspaces button {
@@ -41,6 +40,7 @@ window#waybar {
 #clock,
 #network,
 #pulseaudio,
+#battery,
 #tray {
     padding: 0 10px;
     color: #ffffff;
@@ -48,6 +48,10 @@ window#waybar {
 
 #window {
     color: #888888;
+}
+
+#battery.critical {
+    color: #ff4444;
 }
 
 #tray > .passive {

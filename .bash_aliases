@@ -80,3 +80,35 @@ alias prenv='rm -rf .venv'
 
 # wayland "xrandr"
 alias wrandr='swaymsg -t get_outputs'
+
+# open all modified files in a git repo
+# alias sopen="git status --porcelain | awk -F ' ' '{print $2}' | xargs nvim"
+
+# View all logs
+# gh run view 26870424046 --json jobs | jq -r '.jobs[].databaseId' | xargs -I{} gh run view --job {}
+
+
+# Docker
+drun() {
+	if (($# < 4)); then
+		cat <<'EOF'
+	Usage:
+		drun src dst image command
+	Example:
+		drun . /scratch bash -c 'echo hello'
+EOF
+		return 0
+	fi
+
+	local src dst image
+	src=$(realpath "$1")
+	dst=$2
+	image=$3
+	shift 3 # Shift positional argument
+	docker run \
+			--rm \
+			--mount type=bind,src="$src",dst="$dst" \
+			--user $(id -u):$(id -g) \
+			"$image" \
+			"$@"
+}
