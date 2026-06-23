@@ -30,3 +30,18 @@ alias paper='cd $HOME/repos/paper'
 
 # sync gpu_sampling onto ibt82
 alias gpusync="rsync --exclude='.git/' -rv /home/jos/repos/gpu-convex-polytope-sampling/ nfzj:/home/jos_l/repos/paper/gpu-convex-polytope-sampling/"
+
+
+# Miner
+minerpush() {
+	git push "$@" origin && echo "origin success"
+	git push "$@" dgx && echo "dgx success"
+}
+
+# Kokoro-tts Stream
+kokoro() {
+	kokoro-tts \
+	"$@" \
+	--model /home/jos/repos/diy/kokoros/model/kokoro-v1.0.onnx \
+	--voices /home/jos/repos/diy/kokoros/model/voices-v1.0.bin
+}

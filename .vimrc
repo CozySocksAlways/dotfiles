@@ -149,6 +149,11 @@ fun! AutoComplete()
     end
 endfun
 
+" C++ formater
+nnoremap <LEADER>cf :%!clang-format --style=GNU<CR>
+
+
+
 " Source: ChatGP'ed to suit requirement from this reddit post https://www.reddit.com/r/vim/comments/i02w3v/code_commenting_without_plugins/
 " Toggle comment function
 function! ToggleComment(comment_char, startLine, endLine)
@@ -187,8 +192,52 @@ function! BlameAndShow()
 	execute '!git show -s --format="\%h | \%an | \%ad | \%s" --date=short ' . hash
 endfunction
 
+" Improved Blame and show"
+function! BlameHistory()
+  let lnum = line('.')
+  let file = expand('%:p')
+  let ref = 'HEAD'
+  let history = []
+  let max_depth = 20  " safety limit
+
+  while max_depth > 0
+    let blame_out = system('git blame -L ' . lnum . ',' . lnum .
+          \ ' ' . ref . ' -- ' . shellescape(file) . ' 2>/dev/null')
+    if v:shell_error || blame_out ==# ''
+      break
+    endif
+
+    let parts = split(blame_out)
+    let hash = parts[0]
+
+    " All-zeros means uncommitted change — skip to HEAD proper
+    if hash =~# '^0\+$'
+      let ref = 'HEAD'
+      continue
+    endif
+
+    let info = system('git show -s --format="%h | %an | %ad | %s" --date=short ' . hash)
+    let info = substitute(info, '\n\+$', '', '')
+    call add(history, info)
+
+    " Step to parent; if this is the root commit, ~ will fail
+    let ref = hash . '~'
+    let max_depth -= 1
+  endwhile
+
+  if empty(history)
+    echo "No blame history found."
+    return
+  endif
+
+  " Open results in a scratch buffer
+  botright new
+  setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted filetype=git
+  call setline(1, history)
+endfunction
+
 " Blame and show current line"
-command! -nargs=0 Sline call BlameAndShow()
+command! -nargs=0 Sline call BlameHistory()
 
 " Snippets "
 let g:snippet_dir = expand('~/repos/dotfiles/snippets')

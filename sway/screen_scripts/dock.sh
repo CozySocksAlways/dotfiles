@@ -6,8 +6,8 @@
 # Note: sway uses absolute pixel positions instead of xrandr's --right-of
 
 swaymsg output eDP-1 disable
-swaymsg output DP-7 resolution 2560x1440 position 0 0 enable
-swaymsg output DP-6 resolution 2560x1440 position 2560 0 enable
+swaymsg output DP-9 resolution 2560x1440 position 0 0 enable
+swaymsg output DP-8 resolution 2560x1440 position 2560 0 enable
 
 # Normalize workspaces back to their configured outputs
 "/home/jos/.config/sway/screen_scripts/wsnormalize.sh"
