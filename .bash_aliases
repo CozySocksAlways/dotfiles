@@ -112,3 +112,8 @@ EOF
 			"$image" \
 			"$@"
 }
+
+alias history='history | less'
+
+# Diff
+alias diff='diff -u --color'

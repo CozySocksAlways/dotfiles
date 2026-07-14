@@ -150,9 +150,30 @@ fun! AutoComplete()
 endfun
 
 " C++ formater
-nnoremap <LEADER>cf :%!clang-format --style=GNU<CR>
+let g:clang_style = '{
+      \ BasedOnStyle: GNU,
+      \ SpaceBeforeParens: Custom,
+      \ SpaceBeforeParensOptions: {
+      \   AfterControlStatements: false,
+      \   AfterForeachMacros: false,
+      \   AfterFunctionDefinitionName: false,
+      \   AfterFunctionDeclarationName: false,
+      \   AfterIfMacros: false,
+      \   AfterNot: false,
+      \   AfterOverloadedOperator: false,
+      \   AfterPlacementOperator: false,
+      \   AfterRequiresInClause: false,
+      \   AfterRequiresInExpression: false,
+      \   BeforeNonEmptyParentheses: false
+      \ }}'
 
+function! ClangFormatBuffer()
+    let l:view = winsaveview()
+    execute '%!clang-format --style=' . shellescape(g:clang_style)
+    call winrestview(l:view)
+endfunction
 
+nnoremap <Leader>cf :call ClangFormatBuffer()<CR>
 
 " Source: ChatGP'ed to suit requirement from this reddit post https://www.reddit.com/r/vim/comments/i02w3v/code_commenting_without_plugins/
 " Toggle comment function
