@@ -1,0 +1,73 @@
+# Neovim + molten-nvim, isolated notebook environment.
+# Build from the repo root:
+#   docker build -t molten-nvim-env -f docker/molten-nvim/Dockerfile .
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	git \
+	curl \
+	unzip \
+	ca-certificates \
+	build-essential \
+	ripgrep \
+	nodejs \
+	npm \
+	python3 \
+	python3-pip \
+	python3-venv \
+	luarocks \
+	libmagickwand-dev \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Neovim from the official release tarball -- apt's version is too old for
+# lazy.nvim / molten-nvim's version requirements.
+RUN curl -fLo /tmp/nvim-linux.tar.gz \
+	https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz \
+	&& tar -C /opt -xzf /tmp/nvim-linux.tar.gz \
+	&& rm /tmp/nvim-linux.tar.gz \
+	&& ln -s /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+
+RUN npm install -g tree-sitter-cli
+
+# molten-nvim's Python client + ruff (used by plugin_nvim_config/lua/ruff/*.lua)
+# nbformat: lets molten save/export cell outputs back into the .ipynb file.
+# pillow: image handling for non-Kitty-native image formats.
+# jupytext: CLI that jupytext.nvim shells out to, to convert .ipynb <-> text.
+RUN pip3 install --break-system-packages --no-cache-dir \
+	pynvim \
+	jupyter_client \
+	nbformat \
+	pillow \
+	jupytext \
+	ruff
+
+# Base config: the real, active dotfiles nvim config, copied verbatim.
+COPY plugin_nvim_config/ /root/.config/nvim/
+
+# init.lua does `source ~/.vimrc`, and .vimrc itself references
+# ~/repos/dotfiles/snippets -- both need to exist at the same paths as on
+# the host for the config to load cleanly.
+COPY .vimrc /root/.vimrc
+COPY snippets/ /root/repos/dotfiles/snippets/
+
+# Molten/image.nvim plugin specs: merged into lua/plugins/ *inside the image
+# only* so the host Neovim (which reads plugin_nvim_config/ directly) never
+# loads them.
+COPY molten-nvim/plugins/*.lua /root/.config/nvim/lua/plugins/
+
+# Container-only ftplugin overrides (e.g. treesitter activation for the
+# markdown buffers jupytext.nvim produces from .ipynb files).
+COPY molten-nvim/ftplugin/ /root/.config/nvim/ftplugin/
+
+# Pre-install plugins so the container starts instantly.
+RUN nvim --headless "+Lazy! sync" +qa || true
+
+# Explicitly force-install parsers via the TSInstall command rather than
+# relying on the plugin's config() firing during headless Lazy sync (it may
+# not, depending on lazy-loading timing).
+RUN nvim --headless -c "TSInstall! python cpp markdown markdown_inline" -c "qa" || true
+
+WORKDIR /work
+ENTRYPOINT ["nvim"]
