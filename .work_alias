@@ -8,7 +8,7 @@ alias repos='cd /home/jos/repos/'
 
 alias sand='cd /home/jos/sandbox'
 
-alias tasks='nvim /home/jos/repos/tasks-diary/2026/july_26.md'
+alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/july_26.md'
 
 # Temporary alias
 alias ci='ele && nvim /home/jos/repos/elephant/.github/workflows/CI.yml'
@@ -48,6 +48,4 @@ kokoro() {
 
 alias coco="cd /home/jos/repos/elephant/elephant/spade2/coconad"
 
-export OPENAI_API_KEY=glpat-03UZehz-6zKFPXlAYS--Km86MQp1OnAxcQk.01.0z0fiwjj9
-export OPENAI_BASE_URL=https://api.blablador.fz-juelich.de/v1
-export OPENAI_MODEL=alias-large
+source /home/jos/repos/dotfiles/apis
