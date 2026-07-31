@@ -23,6 +23,10 @@ fi
 # single-file bind mount (the rename target is the mount point itself).
 docker run --rm -it \
 	--network host \
+	--user $(id -u):$(id -g) \
+	-e HOME=/root \
+	-e XDG_STATE_HOME=/tmp/nvim-state \
+	-e XDG_CACHE_HOME=/tmp/nvim-cache \
 	-v "$notebook_dir:/work" \
 	-v "$jupyter_runtime_dir:/root/.local/share/jupyter/runtime:ro" \
 	molten-nvim-env "/work/$notebook_name"

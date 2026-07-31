@@ -1,0 +1,11 @@
+# <Ascending_Number>. <Title_of_Decision>
+
+## Date 
+
+## Status
+
+## Context
+
+## Decision
+
+## Consequences

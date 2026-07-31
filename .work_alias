@@ -11,7 +11,7 @@ alias sand='cd /home/jos/sandbox'
 alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/july_26.md'
 
 # Temporary alias
-alias ci='ele && nvim /home/jos/repos/elephant/.github/workflows/CI.yml'
+alias ci='cd /home/jos/repos/elephant/.github/workflows/'
 
 pushsync() {
 	git push "$@"

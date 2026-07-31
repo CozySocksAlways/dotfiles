@@ -69,5 +69,21 @@ RUN nvim --headless "+Lazy! sync" +qa || true
 # not, depending on lazy-loading timing).
 RUN nvim --headless -c "TSInstall! python cpp markdown markdown_inline" -c "qa" || true
 
+# /root and its subdirs (created above by nvim itself) default to 700, which
+# blocks --user (running as the host uid so files written into the
+# bind-mounted notebook dir aren't root-owned) from reading the
+# config/plugins at all -- nvim then silently starts unconfigured. Must run
+# after everything that populates /root. Writable state (shada, cache) is
+# redirected to /tmp via XDG env vars at runtime instead, since read-only is
+# all that's needed here.
+RUN chmod -R o+rX /root
+
+# jupytext's CLI shells out to nbformat's notebook-signature store, which
+# needs to *write* a sqlite db under Jupyter's data dir (~/.local/share/jupyter)
+# regardless of uid -- this is the one exception to read-only above. The
+# runtime/ subdir is bind-mounted over this at container-run time (see
+# nvim-notebook.sh) so host kernel discovery still works.
+RUN mkdir -p /root/.local/share/jupyter && chmod 777 /root/.local/share/jupyter
+
 WORKDIR /work
 ENTRYPOINT ["nvim"]

@@ -104,19 +104,30 @@ local function ruffify(lines)
 end
 
 function ruff_format_buffer_undoable(mode)
-	-- Check if python
-	if vim.bo.filetype ~= "python" then
-		return
-	end
-
 	local start_line, end_line
+
 	if mode == "visual" then
 		print("visualruff")
+		if vim.bo.filetype ~= "python" then
+			return
+		end
 		start_line = vim.fn.line("'<") - 1
 		end_line = vim.fn.line("'>")
-	else
+	elseif vim.bo.filetype == "python" then
 		start_line = 0
 		end_line = -1
+	elseif vim.bo.filetype == "markdown" then
+		-- jupytext.nvim renders .ipynb python cells as ```python fences;
+		-- format just the fence under the cursor instead of the whole buffer.
+		local fence_start, fence_end = utils.find_python_fence(0)
+		if not fence_start then
+			vim.notify("Cursor is not inside a python code block", vim.log.levels.WARN)
+			return
+		end
+		start_line, end_line = fence_start, fence_end
+		mode = "visual" -- reuse the deindent/reindent handling below
+	else
+		return
 	end
 
 	-- Get buffer name. 0 for current buffer

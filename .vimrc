@@ -24,6 +24,9 @@ set cursorline
 " open current split in own tab (like zoom in tmux) and keep cursor pos
 nnoremap <LEADER>z mx:tabedit %<CR>g`x
 
+" Swap word under cursor with unnamed register content"
+nnoremap <leader>s :let @z = @"<CR>ciw<C-r>z<Esc>
+
 " Tab and pane open and close with leader"
 nnoremap <LEADER>t :tabnew<CR>
 nnoremap <LEADER>x :tabclose<CR>
@@ -83,6 +86,24 @@ set showmatch
 " Diff unsaved buffer
 command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
                 \ | diffthis | wincmd p | diffthis
+
+" Diff current buffer against git HEAD, in a new tab
+function! s:DiffHead()
+  let l:file = expand('%')
+  if l:file ==# ''
+    echo "No file in buffer"
+    return
+  endif
+  tabedit %
+  vert new
+  setlocal buftype=nofile bufhidden=wipe noswapfile
+  execute 'read !git show HEAD:./' . fnameescape(l:file)
+  0d_
+  diffthis
+  wincmd p
+  diffthis
+endfunction
+command! DiffHead call s:DiffHead()
 
 " Indent and unindent lines by tab width in visual mode"
 vnoremap <Tab> >gv
@@ -213,6 +234,9 @@ function! BlameAndShow()
 	execute '!git show -s --format="\%h | \%an | \%ad | \%s" --date=short ' . hash
 endfunction
 
+" Shell formater using shfmt"
+nnoremap <Leader>lf :!shfmt -w %<CR>
+
 " Improved Blame and show"
 function! BlameHistory()
   let lnum = line('.')
@@ -271,6 +295,7 @@ nnoremap <LEADER>r1 :call InsertSnippet('logger.txt')<CR>
 nnoremap <LEADER>r2 :call InsertSnippet('pytestmark.txt')<CR>
 nnoremap <LEADER>r3 :call InsertSnippet('pymain.txt')<CR>
 nnoremap <LEADER>r4 :call InsertSnippet('debug.txt')<CR>
+nnoremap <LEADER>r5 :call InsertSnippet('decision-log.txt')<CR>
 
 " Toggle relativenumber"
 function! ToggleNumber()
