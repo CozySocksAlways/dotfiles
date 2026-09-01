@@ -25,3 +25,6 @@ vim.cmd([[
   highlight NormalFloat guibg=#000000
   highlight LineNr guifg=#888888 guibg=#000000
 ]])
+
+-- nipython
+require("nipython.nipython")

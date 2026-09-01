@@ -1,1 +1,4 @@
-logging.basicConfig(format="__LOGGING__:{levelname}:{message}", style="{")
+log.basicConfig(
+    level=log.INFO,
+    format="%(levelname)s - %(funcName)s - %(message)s",
+)

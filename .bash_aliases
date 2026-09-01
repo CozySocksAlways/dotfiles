@@ -117,3 +117,20 @@ alias history='history | less'
 
 # Diff
 alias diff='diff -u --color'
+
+# Make Plantuml
+muml() {
+	if (($# < 1)); then
+		cat <<'EOF'
+	Usage:
+		muml <file>
+	Example:
+		muml arch.puml
+EOF
+		return 0
+	fi
+	filename=$1
+	podman run --rm \
+	--mount type=bind,src="$(pwd)",dst=/workspace \
+	-w /workspace docker://plantuml/plantuml -tpng "${filename}"
+}

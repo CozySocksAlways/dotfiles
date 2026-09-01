@@ -8,7 +8,7 @@ alias repos='cd /home/jos/repos/'
 
 alias sand='cd /home/jos/sandbox'
 
-alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/july_26.md'
+alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/aug_26.md'
 
 # Temporary alias
 alias ci='cd /home/jos/repos/elephant/.github/workflows/'
@@ -46,6 +46,8 @@ kokoro() {
 	--voices /home/jos/repos/diy/kokoros/model/voices-v1.0.bin
 }
 
-alias coco="cd /home/jos/repos/elephant/elephant/spade2/coconad"
+alias coco="cd /home/jos/repos/coconad"
+alias cocoj="cd /home/jos/repos/coco_jit"
+alias wte="cd /home/jos/repos/elephant.git"
 
 source /home/jos/repos/dotfiles/apis
