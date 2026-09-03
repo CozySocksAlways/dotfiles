@@ -20,12 +20,27 @@ local function resolve_alias(name)
   return name
 end
 
+-- Run pydoc into a scratch buffer rather than `:!`: Neovim's `:!` shells
+-- out without a real tty, so pydoc's pager falls back to plain_pager and
+-- output only gets Neovim's own "-- More --" prompt (space/enter to page,
+-- no `/` search). A normal buffer gives real search, yanking, etc.
 local function pydoc_lookup()
   local word = vim.fn.expand('<cword>')
   if word == '' then return end
   local parts = vim.split(word, '.', { plain = true })
   parts[1] = resolve_alias(parts[1])
-  vim.cmd('!' .. PYDOC .. ' ' .. table.concat(parts, '.'))
+  local target = table.concat(parts, '.')
+  local output = vim.fn.system(PYDOC .. ' ' .. target)
+
+  vim.cmd('new')
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, '\n'))
+  vim.bo[buf].buftype = 'nofile'
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.bo[buf].modifiable = false
+  vim.bo[buf].filetype = 'python'
+  vim.api.nvim_buf_set_name(buf, 'pydoc://' .. target)
+  vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = buf, silent = true })
 end
 
 vim.keymap.set('n', 'K', pydoc_lookup, { buffer = true, desc = 'pydoc lookup (venv, alias-aware)' })
