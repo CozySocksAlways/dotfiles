@@ -1,11 +1,33 @@
 " C++ formater
 let g:clang_style = '{
       \ BasedOnStyle: GNU,
+      \ BreakBeforeBraces: Custom,
+      \ BraceWrapping: {
+      \   AfterFunction: true,
+      \   AfterClass: true,
+      \   AfterStruct: true,
+      \   AfterUnion: true,
+      \   AfterEnum: true,
+      \   AfterNamespace: true,
+      \   AfterExternBlock: true,
+      \   AfterControlStatement: Always,
+      \   BeforeElse: true,
+      \   BeforeCatch: true,
+      \   BeforeWhile: false,
+      \   IndentBraces: false,
+      \   SplitEmptyFunction: false,
+      \   SplitEmptyRecord: true,
+      \   SplitEmptyNamespace: true
+      \ },
       \ AlwaysBreakAfterDefinitionReturnType: None,
       \ BreakAfterReturnType: None,
       \ BreakTemplateDeclarations: Yes,
+      \ RemoveBracesLLVM: true,
       \ PointerAlignment: Left,
       \ ReferenceAlignment: Left,
+      \ IndentWidth: 4,
+      \ UseTab: Never,
+      \ TabWidth: 4,
       \ SpaceBeforeParens: Custom,
       \ SpaceBeforeParensOptions: {
       \   AfterControlStatements: false,

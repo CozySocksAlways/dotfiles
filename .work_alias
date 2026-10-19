@@ -1,4 +1,4 @@
-alias ele='cd /home/jos/repos/elephant'
+alias ele='cd /home/jos/repos/elephant.git'
 
 alias task='cd /home/jos/repos/tasks-diary'
 
@@ -8,7 +8,7 @@ alias repos='cd /home/jos/repos/'
 
 alias sand='cd /home/jos/sandbox'
 
-alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/aug_26.md'
+alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/oct_26.md'
 
 # Temporary alias
 alias ci='cd /home/jos/repos/elephant/.github/workflows/'
@@ -46,8 +46,36 @@ kokoro() {
 	--voices /home/jos/repos/diy/kokoros/model/voices-v1.0.bin
 }
 
-alias coco="cd /home/jos/repos/coconad"
-alias cocoj="cd /home/jos/repos/coco_jit"
+alias coco="cd /home/jos/repos/coco"
 alias wte="cd /home/jos/repos/elephant.git"
+alias cgc="cd /home/jos/repos/elephant.git/csg"
 
 source /home/jos/repos/dotfiles/apis
+
+# Datalad
+datalad(){
+	podman run --rm \
+			-it \
+			--env 'HOME=/home/user/' \
+			--mount type=bind,src=/home/jos/repos/dotfiles/.gitconfig,dst=/home/user/.gitconfig \
+			--mount type=bind,src="$PWD",dst="$PWD" \
+			-w "$PWD" \
+			datalad:latest "$@"
+}
+
+git-annex(){
+	podman run --rm \
+			-it \
+			--env 'HOME=/home/user/' \
+			--mount type=bind,src=/home/jos/repos/dotfiles/.gitconfig,dst=/home/user/.gitconfig \
+			--mount type=bind,src="$PWD",dst="$PWD" \
+			-w "$PWD" \
+			--entrypoint="git-annex" \
+			datalad:latest "$@"
+}
+
+# Usefull vairables
+export GHELE=NeuralEnsemble/elephant
+
+# Latex
+alias mklatex='podman run --rm --mount type=bind,src=$(pwd),dst=/work -w /work texlive/texlive:latest latexmk -auxdir=build -pdf main.tex'

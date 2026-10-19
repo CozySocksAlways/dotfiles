@@ -40,3 +40,6 @@
 [credential "https://jugit.fz-juelich.de"]
 	helper = 
 	helper = !/usr/bin/glab auth git-credential
+[credential "https://gitlab.fz-juelich.de"]
+	helper = 
+	helper = !/usr/bin/glab auth git-credential

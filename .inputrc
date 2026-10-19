@@ -6,3 +6,12 @@ $endif
 
 # Colored stats?
 set colored-stats on
+
+# Ignore uppercase/lowercase differences during Tab completion
+set completion-ignore-case on
+
+# Treat hyphens (-) and underscores (_) as equivalent
+set completion-map-case on
+
+# Complete shared prefixes before cycling through individual choices
+set menu-complete-display-prefix on

@@ -1,0 +1,10 @@
+define srcview
+  dashboard -layout breakpoints source expressions stack variables
+end
+
+define srcvar
+  dashboard -layout breakpoints source variables
+  dashboard source -style height 20
+end
+
+srcview

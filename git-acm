@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# git-acm: generate a commit message for staged changes with opencode,
+# then open it in $EDITOR before committing.
+#
+# Usage:  git acm [extra git commit flags, e.g. -s --no-verify]
+# Env:    AIC_MODEL=provider/model   (optional, passed to opencode -m)
+#         AIC_MAX_DIFF_CHARS=60000   (optional, truncates huge diffs)
+set -euo pipefail
+
+MAX_DIFF_CHARS="${AIC_MAX_DIFF_CHARS:-60000}"
+# Globaly change with this AIC_MODEL
+MODEL="${AIC_MODEL:-"blablador/alias-fast"}"
+
+if git diff --cached --quiet; then
+  echo "Nothing staged. Run 'git add' first." >&2
+  exit 1
+fi
+
+# Skip noisy lockfiles; include a stat summary for context
+# --cached and --staged are synonyms
+EXCLUDES=(':(exclude)*.lock' ':(exclude)package-lock.json' ':(exclude)pnpm-lock.yaml')
+diff="$(git diff --cached --no-color --stat -- . "${EXCLUDES[@]}"; echo; \
+        git diff --cached --no-color -- . "${EXCLUDES[@]}")"
+
+if (( ${#diff} > MAX_DIFF_CHARS )); then
+  diff="${diff:0:MAX_DIFF_CHARS}
+[... diff truncated ...]"
+fi
+
+recent="$(git log -8 --pretty=format:'%s' 2>/dev/null || true)"
+
+prompt="Write a git commit message for the staged diff below.
+
+Rules:
+- First line: imperative mood, max 72 chars, no trailing period.
+- If the change is small or self-explanatory, output ONLY that one line.
+- Otherwise: subject line, one blank line, then a short body wrapped at
+  72 chars explaining what changed and why (not a line-by-line recap).
+- Match the style of the recent commit subjects below if they follow a
+  convention (e.g. Conventional Commits).
+- Output ONLY the raw commit message. No code fences, no preamble, no quotes.
+
+Recent commit subjects:
+${recent}
+
+Staged diff:
+${diff}"
+
+echo "Generating commit message with opencode..." >&2
+
+msg="$(opencode run ${MODEL:+-m "$MODEL"} "$prompt" \
+  | sed -e 's/\x1b\[[0-9;]*[a-zA-Z]//g' \
+  | sed -e '/^```/d')"
+
+# Trim leading/trailing blank lines
+msg="$(printf '%s\n' "$msg" | sed -e '/./,$!d' | sed -e ':a' -e '/^\n*$/{$d;N;ba' -e '}')"
+
+if [[ -z "$msg" ]]; then
+  echo "opencode returned an empty message; opening editor blank." >&2
+fi
+
+msgfile="$(mktemp "${TMPDIR:-/tmp}/aic-msg.XXXXXX")"
+trap 'rm -f "$msgfile"' EXIT
+printf '%s\n' "$msg" > "$msgfile"
+
+# -e opens $EDITOR (GIT_EDITOR / core.editor / VISUAL / EDITOR) pre-filled.
+# Emptying the message in the editor aborts the commit.
+git commit -e -F "$msgfile" "$@"

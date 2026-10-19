@@ -27,11 +27,9 @@ def load_quote():
     return quote["text"], quote.get("author", "")
 
 
-def main():
-    text, author = load_quote()
+def print_box(text, footer=""):
     width = min(MAX_WIDTH, shutil.get_terminal_size().columns - 8)
     lines = textwrap.wrap(text, width)
-    author = f"— {author}" if author else ""
 
     # Pad before colouring, otherwise escape codes skew the right border
     left = f"{INDENT}{DIM}│{RESET}  "
@@ -42,11 +40,15 @@ def main():
     print(f"{INDENT}{DIM}╭{bar}╮{RESET}")
     for line in lines:
         print(f"{left}{ITALIC}{CYAN}{line:<{width}}{RESET}{right}")
-    if author:
-        print(f"{left}{BOLD}{author:>{width}}{RESET}{right}")
+    if footer:
+        print(f"{left}{BOLD}{footer:>{width}}{RESET}{right}")
     print(f"{INDENT}{DIM}╰{bar}╯{RESET}")
     print()
 
+
+def main():
+    text, author = load_quote()
+    print_box(text, f"— {author}" if author else "")
 
 if __name__ == "__main__":
     main()

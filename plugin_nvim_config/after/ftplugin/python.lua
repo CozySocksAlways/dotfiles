@@ -5,7 +5,12 @@
 -- needs the real module name, not a local import alias like "np".
 -- So we capture the full dotted expression and resolve the alias
 -- against this buffer's import lines before calling pydoc.
-local PYDOC = os.getenv('HOME') .. '/repos/dotfiles/pydocs/.venv/bin/python -m pydoc'
+-- Prefer the project's env via `uv run` (honours $VIRTUAL_ENV, else finds
+-- .venv by walking up to pyproject.toml); --no-sync so K never installs
+-- anything. Fall back to the reference venv when uv is missing, there's no
+-- project (uv would use system python), or the package isn't installed.
+local UV_PYDOC = 'uv run --no-sync --quiet python -m pydoc'
+local REF_PYDOC = os.getenv('HOME') .. '/repos/dotfiles/pydocs/.venv/bin/python -m pydoc'
 
 vim.opt_local.iskeyword:append('.')
 
@@ -30,7 +35,13 @@ local function pydoc_lookup()
   local parts = vim.split(word, '.', { plain = true })
   parts[1] = resolve_alias(parts[1])
   local target = table.concat(parts, '.')
-  local output = vim.fn.system(PYDOC .. ' ' .. target)
+  local output
+  if vim.fn.executable('uv') == 1 then
+    output = vim.fn.system(UV_PYDOC .. ' ' .. target .. ' 2>/dev/null')
+  end
+  if not output or vim.v.shell_error ~= 0 or output:match('^No Python documentation found') then
+    output = vim.fn.system(REF_PYDOC .. ' ' .. target)
+  end
 
   vim.cmd('new')
   local buf = vim.api.nvim_get_current_buf()

@@ -24,6 +24,11 @@ set cursorline
 " open current split in own tab (like zoom in tmux) and keep cursor pos
 nnoremap <LEADER>z mx:tabedit %<CR>g`x
 
+" Netrw preview vertical
+let g:netrw_preview = 1
+" Netrw keeps 20% of the window, so the preview (p) gets ~80%
+let g:netrw_winsize = 80
+
 " Swap word under cursor with unnamed register content"
 nnoremap <leader>s :let @z = @"<CR>ciw<C-r>z<Esc>
 
@@ -132,10 +137,11 @@ noremap <LEADER>7 7gt
 noremap <LEADER>8 8gt
 noremap <LEADER>9 9gt
 noremap <LEADER>0 :tablast<CR>
-" Go to last active tab
-au TabLeave * let g:lasttab = tabpagenr()
-nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<CR>
-vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<CR>
+" Move left/right between tabs
+nnoremap <silent> <C-h> :tabprevious<CR>
+nnoremap <silent> <C-l> :tabnext<CR>
+vnoremap <silent> <C-h> :tabprevious<CR>
+vnoremap <silent> <C-l> :tabnext<CR>
 
 " Toggle cc
 command! ToggleCC if &cc == '' | set cc=79 | else | set cc= | endif
@@ -273,6 +279,7 @@ nnoremap <LEADER>r2 :call InsertSnippet('pytestmark.txt')<CR>
 nnoremap <LEADER>r3 :call InsertSnippet('pymain.txt')<CR>
 nnoremap <LEADER>r4 :call InsertSnippet('debug.txt')<CR>
 nnoremap <LEADER>r5 :call InsertSnippet('decision-log.txt')<CR>
+nnoremap <LEADER>r6 :call InsertSnippet('cppdebug.txt')<CR>f"li
 
 " Toggle relativenumber"
 function! ToggleNumber()
