@@ -11,13 +11,22 @@ vim.api.nvim_create_user_command('Diff', function(opts)
 end, { nargs = '?' })
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'python', 'cpp', 'c', 'cuda', 'cmake', 'yaml', 'snakemake', 'dockerfile' },
-  callback = function() vim.treesitter.start() end,
+  pattern = { 'python', 'cpp', 'c', 'cuda', 'cmake', 'yaml', 'snakemake', 'dockerfile', 'latex' },
+  callback = function()
+    vim.treesitter.start()
+    -- Treesitter-based folding (zc/zo/za); start with all folds open
+    vim.wo[0][0].foldmethod = 'expr'
+    vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.wo[0][0].foldlevel = 99
+  end,
 })
 
 
 -- Load commands
 require("ruff.commands")
+require("doxydoc.commands")
+require("cpgen.cpgen")
+require("fngrep.fngrep")
 
 -- black bg
 vim.cmd([[
