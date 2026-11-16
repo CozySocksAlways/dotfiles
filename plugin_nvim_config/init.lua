@@ -27,6 +27,7 @@ require("ruff.commands")
 require("doxydoc.commands")
 require("cpgen.cpgen")
 require("fngrep.fngrep")
+require("listcustom.listcustom")
 
 -- black bg
 vim.cmd([[

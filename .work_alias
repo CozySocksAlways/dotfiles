@@ -8,7 +8,7 @@ alias repos='cd /home/jos/repos/'
 
 alias sand='cd /home/jos/sandbox'
 
-alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/oct_26.md'
+alias tasks='nvim --listen /tmp/tasks-nvim.sock /home/jos/repos/tasks-diary/2026/nov_26.md'
 
 # Temporary alias
 alias ci='cd /home/jos/repos/elephant/.github/workflows/'
@@ -76,6 +76,22 @@ git-annex(){
 
 # Usefull vairables
 export GHELE=NeuralEnsemble/elephant
+export GHVIZ=INM-6/viziphant
 
 # Latex
 alias mklatex='podman run --rm --mount type=bind,src=$(pwd),dst=/work -w /work texlive/texlive:latest latexmk -auxdir=build -pdf main.tex'
+
+# Glab color map
+# this depends on glab's current color values (version 1.128.0).
+# If a later version changes its theme, the substitutions will stop matching and you'll get the light colors again.
+# To get the new values, compare GLAB_COLOR=always glab --help | cat -v with the script output.
+glabp() {
+  GLAB_COLOR=always glab "$@" | sed '
+    s/38;2;23;19;33m/38;2;250;250;250m/g
+    s/38;2;23;19;33;/38;2;250;250;250;/g
+    s/38;2;58;57;67/38;2;223;219;221/g
+    s/38;2;107;107;115/38;2;176;176;176/g
+    s/38;2;119;89;194/38;2;169;137;245/g
+    s/38;2;16;104;191/38;2;110;170;240/g
+    s/48;2;241;239;239/48;2;47;46;54/g' | less -R
+}
