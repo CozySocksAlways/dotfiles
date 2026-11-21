@@ -223,6 +223,9 @@ bindsym Mod4+d exec --no-startup-id ~/.config/i3/screen_scripts/dock.sh
 # Switch to projector
 bindsym Mod4+p exec --no-startup-id ~/.config/i3/screen_scripts/project.sh
 
+# Switch to projector
+bindsym Mod4+w exec --no-startup-id ~/.config/i3/screen_scripts/wfh.sh
+#
 # switch screen mode
 bindsym $mod+F8 exec --no-startup-id ~/.config/i3/screen_scripts/switch_screen.sh
 
@@ -241,18 +244,17 @@ mode "passthrough" {
 
 # DPMS settings (i.e. when screen off and such)
 # standy 0; suspend 300s; Off 300s
-exec --no-startup-id xset +dpms dpms 0 300 300
+exec --no-startup-id xset +dpms dpms 0 3000 3000
 
 # Start xss-lock on suspend/idle
 exec --no-startup-id xss-lock --transfer-sleep-lock -- \
 	i3lock \
 	  --nofork \
-	  --ignore-empty-password \
 	  --image='/home/jos/.config/i3/images/lockimage.jpg'
 
 # Manual lock
 bindsym Mod4+l exec --no-startup-id \
-	i3lock --ignore-empty-password \
+	i3lock \
 		  --image='/home/jos/.config/i3/images/lockimage.jpg' && \
 	sleep 0.3 && \
 	xset dpms force off
